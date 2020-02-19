@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <title>MBTA Coach # By Route:</title>
+    <link rel="icon" href="https://cdn.mbta.com/favicon-3092667d44a8676d16eba452955a7c24.ico">
+  </head>
+  <body>
+    <div id="results">
+      <h1>Available Trains:</h1>
+        <p>
+          <b>
+            Track/Destination:   Label/Train #:   Schedule ID:
+          </b>
+        </p>
+      <p id="trains">
+    </p>
+    <script>
+    function createNode(element) {
+      return document.createElement(element);
+    }
+
+    function append(parent, el) {
+      return parent.appendChild(el);
+    }
+
+    const ul = document.getElementById('trains');
+    const baseUrl = 'https://api-v3.mbta.com/vehicles?filter[route]=';
+
+    function afterSearchClicked() {
+      var destinationSelected = document.getElementById("route").value;
+      var trainUrl = baseUrl + destinationSelected;
+    fetch(trainUrl)
+    .then((resp) => resp.json())
+    .then(function(info) {
+      let trains = info.data;
+        return trains.map(function(train) {
+      let li = createNode('li'),
+          span = createNode('span');
+          span.innerHTML = `
+            ${train.attributes.label} &nbsp
+            ${train.relationships.route.data.id} &nbsp
+            ${train.relationships.trip.data.id}`;
+      append(li, span);
+      append(ul, li);
+    })
+  })
+  .catch(function(error) {
+    console.log(error);
+  })};
+    </script>
+    </div>
+        <div id="query">
+      <t style="margin-left:10px;">Train Destination:</t>
+      <select id="route">
+        <option value="">-- Select --</option>
+        <option value="CR-Newburyport">Newbury/Rockport</option>
+        <option value="CR-Fairmount">Fairmount*</option>
+        <option value="CR-Fitchburg">Fitchburg</option>
+        <option value="CR-Worcester">Framingham/Worcester</option>
+        <option value="CR-Franklin">Franklin/Foxboro</option>
+        <option value="CR-Greenbush">Greenbush</option>
+        <option value="CR-Haverhill">Haverhill</option>
+        <option value="CR-Kingston">Kingston/Plymouth</option>
+        <option value="CR-Lowell">Lowell*</option>
+        <option value="CR-Middleborough">Middleborough/Lakeville</option>
+        <option value="CR-Needham">Needham</option>
+        <option value="CR-Providence">Providence/Stoughton</option>
+        <option value="9648">Foxboro Event Services*</option>
+      </select>
+      <button onclick="afterSearchClicked()" type="button">Search</button>
+    </div>
+    <style>
+      body {
+        background-image: url("https://bostonglobe-prod.cdn.arcpublishing.com/resizer/IoXiw90reIFToBCYLDR9paziUJ8=/1440x0/arc-anglerfish-arc2-prod-bostonglobe.s3.amazonaws.com/public/C2H5U2R3SQI6TI4SR3LBLSWG2I.jpg");
+        background-color: black;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 16px;
+        color: white;
+      }
+      #results {
+        text-align: center;
+        top: 50px;
+        left: 30px;
+        position: absolute;
+        width: 400px;
+        padding: 1em;
+        background: rgba(39, 38, 38, 0.85);
+        border-radius: 25px;
+      }   
+      #query {
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        position: absolute;
+        padding: .5em;
+        background: black;
+        width: 100%;
+      }
+    }
+    </style>
+  </body>
+</html>
