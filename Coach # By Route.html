@@ -8,7 +8,7 @@
       <h1>Available Trains:</h1>
         <p>
           <b>
-            Coach #:   Route:   Schedule ID:
+            Route: &nbsp Schedule ID &nbsp Coach #:      :
           </b>
         </p>
       <p id="trains">
@@ -36,9 +36,9 @@
       let li = createNode('li'),
           span = createNode('span');
           span.innerHTML = `
-            ${train.attributes.label} &nbsp
-            ${train.relationships.route.data.id} &nbsp
-            ${train.relationships.trip.data.id}`;
+            ${train.relationships.route.data.id.slice(3)} &nbsp
+            ${train.relationships.trip.data.id.slice(-3)} &nbsp
+            ${train.attributes.label}`;
       append(li, span);
       append(ul, li);
     })
