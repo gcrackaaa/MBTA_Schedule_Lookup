@@ -6,6 +6,11 @@
   <body>
     <div id="results">
       <h1>Track Predictions:</h1>
+        <p>
+          <b>
+            Route: &nbsp Schedule ID &nbsp Station: &nbsp Track #:
+          </b>
+        </p>
       <p id="trains">
     </p>
     <script>
@@ -18,7 +23,7 @@
     }
 
     const ul = document.getElementById('trains');
-    const baseUrl = 'https://api-v3.mbta.com/predictions?page[limit]=5&filter[route]=';
+    const baseUrl = 'https://api-v3.mbta.com/predictions?page[limit]=10&filter[route]=';
 
     function afterSearchClicked() {
       var destinationSelected = document.getElementById("route").value;
@@ -30,9 +35,9 @@
         return trains.map(function(train) {
       let li = createNode('li'),
           span = createNode('span');
-          span.innerHTML = ` 
-            ${train.id}
-            ${train.relationships.route.data.id} &nbsp&nbsp&nbsp
+          span.innerHTML = `
+            ${train.relationships.route.data.id.slice(3)} &nbsp&nbsp&nbsp
+            ${train.id.match(/[0-9]\d\d/g)} &nbsp&nbsp&nbsp
             ${train.relationships.stop.data.id} &nbsp&nbsp&nbsp
             Track ${train.attributes.stop_sequence} <br /><br />`;
       append(li, span);
@@ -92,6 +97,9 @@
         padding: .5em;
         background: black;
         width: 100%;
+      }
+      #trains {
+        text-align: left;
       }
     }
     </style>
