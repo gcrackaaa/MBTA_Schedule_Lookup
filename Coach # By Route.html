@@ -38,7 +38,7 @@
           span.innerHTML = `
             ${train.relationships.route.data.id.slice(3)} &nbsp
             ${train.relationships.trip.data.id.slice(-3)} &nbsp
-            ${train.attributes.label}`;
+            ${train.attributes.label} <br /><br />`;
       append(li, span);
       append(ul, li);
     })
