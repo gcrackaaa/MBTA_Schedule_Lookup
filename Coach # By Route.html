@@ -26,8 +26,8 @@
     const baseUrl = 'https://api-v3.mbta.com/vehicles?filter[route]=';
 
     function afterSearchClicked() {
-      var destinationSelected = document.getElementById("route").value;
-      var trainUrl = baseUrl + destinationSelected;
+      var routeSelected = document.getElementById("route").value;
+      var trainUrl = baseUrl + routeSelected;
     fetch(trainUrl)
     .then((resp) => resp.json())
     .then(function(info) {
@@ -49,7 +49,7 @@
     </script>
     </div>
         <div id="query">
-      <t style="margin-left:10px;">Train Destination:</t>
+      <t style="margin-left:10px;">Train Route:</t>
       <select id="route">
         <option value="">-- Select --</option>
         <option value="CR-Newburyport">Newbury/Rockport</option>
