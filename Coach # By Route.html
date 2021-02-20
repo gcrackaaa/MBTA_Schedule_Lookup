@@ -1,14 +1,14 @@
 <html>
   <head>
-    <title>MBTA Track # Predictions By Route:</title>
+    <title>MBTA Coach # By Route:</title>
     <link rel="icon" href="https://cdn.mbta.com/favicon-3092667d44a8676d16eba452955a7c24.ico">
   </head>
   <body>
     <div id="results">
-      <h1>Track Predictions:</h1>
+      <h1>Available Trains:</h1>
         <p>
           <b>
-            Route: &nbsp Schedule ID &nbsp Station: &nbsp Track #:
+            Route: &nbsp Schedule ID &nbsp Coach #:
           </b>
         </p>
       <p id="trains">
@@ -23,7 +23,7 @@
     }
 
     const ul = document.getElementById('trains');
-    const baseUrl = 'https://api-v3.mbta.com/predictions?page[limit]=10&filter[route]=';
+    const baseUrl = 'https://api-v3.mbta.com/vehicles?filter[route]=';
 
     function afterSearchClicked() {
       var routeSelected = document.getElementById("route").value;
@@ -36,10 +36,9 @@
       let li = createNode('li'),
           span = createNode('span');
           span.innerHTML = `
-            ${train.relationships.route.data.id.slice(3)} &nbsp&nbsp&nbsp
-            ${train.id.match(/[0-9]\d\d/g)} &nbsp&nbsp&nbsp
-            ${train.relationships.stop.data.id} &nbsp&nbsp&nbsp
-            Track ${train.attributes.stop_sequence} <br /><br />`;
+            ${train.relationships.route.data.id.slice(3)} &nbsp
+            ${train.relationships.trip.data.id.slice(-3)} &nbsp
+            ${train.attributes.label} <br /><br />`;
       append(li, span);
       append(ul, li);
     })
@@ -97,9 +96,6 @@
         padding: .5em;
         background: black;
         width: 100%;
-      }
-      #trains {
-        text-align: left;
       }
     }
     </style>
